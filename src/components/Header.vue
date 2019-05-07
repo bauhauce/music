@@ -6,14 +6,13 @@
 
 <script>
 export default {
-  name: 'MHeader'
+  name: 'Header'
 }
 </script>
 
 <style lang="stylus" scoped>
   h1
     width: 100%
-    height: .86rem
     text-align: center
     line-height: .86rem
     font-size: .36rem

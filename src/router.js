@@ -30,6 +30,16 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: () => import(/* webpackChunkName: "search" */ './components/Search')
+    },
+    {
+      path: '/detail',
+      name: 'Detail',
+      component: () => import(/* webpackChunkName: "detail" */ './components/Detail')
+    },
+    {
+      path: '/player',
+      name: 'Player',
+      component: () => import(/* webpackChunkName: "player" */ './components/Player')
     }
   ]
 })
