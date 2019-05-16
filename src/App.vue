@@ -2,18 +2,23 @@
   <div id="app">
     <m-header></m-header>
     <m-nav></m-nav>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <player></player>
   </div>
 </template>
 
 <script>
-import MHeader from './components/Header'
-import MNav from './components/Nav'
+import MHeader from './views/top/Header'
+import MNav from './views/top/Nav'
+import Player from './views/player/Player'
 
 export default {
   components: {
     MHeader,
-    MNav
+    MNav,
+    Player
   }
 }
 </script>

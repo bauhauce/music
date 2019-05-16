@@ -2,60 +2,75 @@
   <div>
     <div class="banner">
       <swiper :options="swiperOption">
-        <swiper-slide v-for="item of sliderList" :key="item.id">
-          <img :src="item.picUrl" alt="图片">
+        <swiper-slide v-for="item of sliderList" :key="item.bannerID">
+          <img :src="item.pic" alt="图片">
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
     <dl class="content">
       <dt class="title">热门歌单推荐</dt>
-      <dd class="item" v-for="item of songList" :key="item.dissid">
+      <dd class="item"
+        v-for="item of recommendList"
+        :key="item.id"
+        @click="handleClick(item)"
+        :imgUrl="item.coverImgUrl"
+        :title="222"
+      >
         <div class="item-left">
-          <img :src="item.imgurl" alt="图片">
+          <img :src="item.coverImgUrl" alt="图片">
         </div>
         <div class="item-right">
-          <h3 class="item-title">{{item.creator.name}}</h3>
-          <p class="item-desc">{{item.dissname}}</p>
+          <h3 class="item-title">{{item.creator.nickname}}</h3>
+          <p class="item-desc">{{item.name}}</p>
         </div>
       </dd>
     </dl>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { getBanner, getRecommend } from './../../api/index.js'
+import { ERR_OK } from './../../api/config.js'
 
 export default {
   name: 'recommend',
   data () {
     return {
       swiperOption: {
-        autoplay: true,
+        autoplay: 3000,
         loop: true,
-        pagination: {
-          el: '.swiper-pagination'
-        }
+        initialSlide: 1,
+        pagination: '.swiper-pagination'
       },
       sliderList: [],
-      songList: []
+      recommendList: []
     }
   },
   mounted () {
-    this.getSlider()
+    this._getBanner()
+    this._getRecommend()
   },
   methods: {
-    getSlider () {
-      axios.get('https://www.easy-mock.com/mock/5cd273467c940631de15db31/music/recommend')
-        .then(this.getSliderSucc)
+    _getBanner () {
+      getBanner().then(res => {
+        if (res.code === ERR_OK) {
+          this.sliderList = res.banners
+        }
+      })
     },
-    getSliderSucc (res) {
-      res = res.data
-      if (res.code === 0 && res.data) {
-        const data = res.data
-        this.sliderList = data.slider
-        this.songList = data.songList
-      }
+    _getRecommend () {
+      getRecommend().then(res => {
+        if (res.code === ERR_OK) {
+          this.recommendList = res.playlists
+        }
+      })
+    },
+    handleClick (item) {
+      this.$router.push({
+        path: `/recommend/${item.id}`
+      })
     }
   }
 }
@@ -65,12 +80,14 @@ export default {
   .banner
     width: 100%
     height: 0
-    padding-bottom: 40%
+    padding-bottom: 38%
     overflow: hidden
     background: #ccc
     img
       width: 100%
   .content
+    height: 10rem
+    overflow: auto
     .title
       padding: .3rem 0
       text-align: center

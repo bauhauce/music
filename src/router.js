@@ -13,33 +13,34 @@ export default new Router({
     },
     {
       path: '/recommend',
-      name: 'Recommend',
-      component: () => import(/* webpackChunkName: "recommend" */ './components/Recommend')
+      name: 'recommend',
+      component: () => import(/* webpackChunkName: "recommend" */ './views/recommend/Recommend'),
+      children: [
+        {
+          path: ':id',
+          component: () => import(/* webpackChunkName: "detail" */ './views/detail/Detail')
+        }
+      ]
     },
     {
       path: '/singer',
-      name: 'Singer',
-      component: () => import(/* webpackChunkName: "singer" */ './components/Singer')
+      name: 'singer',
+      component: () => import(/* webpackChunkName: "singer" */ './views/singer/Singer')
     },
     {
       path: '/rank',
-      name: 'Rank',
-      component: () => import(/* webpackChunkName: "rank" */ './components/Rank')
+      name: 'rank',
+      component: () => import(/* webpackChunkName: "rank" */ './views/rank/Rank')
     },
     {
       path: '/search',
-      name: 'Search',
-      component: () => import(/* webpackChunkName: "search" */ './components/Search')
+      name: 'search',
+      component: () => import(/* webpackChunkName: "search" */ './views/search/Search')
     },
     {
       path: '/detail',
-      name: 'Detail',
-      component: () => import(/* webpackChunkName: "detail" */ './components/Detail')
-    },
-    {
-      path: '/player',
-      name: 'Player',
-      component: () => import(/* webpackChunkName: "player" */ './components/Player')
+      name: 'detail',
+      component: () => import(/* webpackChunkName: "detail" */ './views/detail/Detail')
     }
   ]
 })

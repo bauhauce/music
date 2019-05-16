@@ -21,8 +21,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'Search'
+  name: 'search',
+  mounted () {
+    axios.get('http://localhost:3000/playlist/hot').then(res => console.log(res))
+  }
 }
 </script>
 
