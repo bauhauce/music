@@ -50,6 +50,7 @@ export default {
   bottom: 0
   left: 0
   right: 0
+  z-index: 10
   .lyric-item
     text-align: center
     line-height: .7rem

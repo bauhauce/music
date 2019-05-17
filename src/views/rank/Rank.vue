@@ -1,20 +1,24 @@
 <template>
   <div>
     <ul class="wrapper">
-      <li class="item" v-for="list of topList" :key="list.id">
+      <li class="item" v-for="list of topList" :key="list.id" @click="handleClick(list.id)">
         <div class="item-icon">
-          <img :src="list.picUrl" alt="图片">
+          <img :src="list.coverImgUrl" alt="图片">
         </div>
         <ul class="item-songlist">
-          <li class="song" v-for="(song, index) of list.songList" :key="index"><span>{{index + 1}}</span><span>{{song.singername + '-' + song.songname}}</span></li>
+          <li class="song" v-for="(song, index) of list.tracks" :key="index">
+            <span>{{index + 1}}</span><span>{{song.first + '-' + song.second}}</span>
+          </li>
         </ul>
       </li>
     </ul>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { getTopList } from 'api/index'
+import { ERR_OK } from 'api/config'
 
 export default {
   name: 'rank',
@@ -24,18 +28,20 @@ export default {
     }
   },
   mounted () {
-    this.getToplist()
+    this._getTopList()
   },
   methods: {
-    getToplist () {
-      axios.get('https://www.easy-mock.com/mock/5cd273467c940631de15db31/music/rank').then(this.getToplistSucc)
+    _getTopList () {
+      getTopList().then(res => {
+        if (res.code === ERR_OK) {
+          this.topList = res.list
+        }
+      })
     },
-    getToplistSucc (res) {
-      res = res.data
-      if (res.code === 0 && res.data) {
-        const data = res.data
-        this.topList = data.topList
-      }
+    handleClick (id) {
+      this.$router.push({
+        path: `/rank/${id}`
+      })
     }
   }
 }
@@ -43,6 +49,12 @@ export default {
 
 <style lang="stylus" scoped>
   .wrapper
+    position: absolute
+    top: 1.6rem
+    bottom: 0
+    left: 0
+    righr: 0
+    overflow: auto
     padding: .4rem 0
     width: 100%
     .item

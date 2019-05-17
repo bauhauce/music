@@ -18,6 +18,17 @@ const mutations = {
   },
   [types.SET_CURRENT_INDEX] (state, index) {
     state.currentIndex = index
+  },
+  [types.SET_SEARCH_HISTORY] (state, item) {
+    if (state.searchHistory.indexOf(item) === -1) {
+      state.searchHistory.push(item)
+    }
+  },
+  [types.DELETE_SEARCH_HISTORY] (state, index) {
+    state.searchHistory.splice(index, 1)
+  },
+  [types.CLEAR_SEARCH_HISTORY] (state) {
+    state.searchHistory = []
   }
 }
 

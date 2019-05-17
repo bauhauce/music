@@ -1,19 +1,15 @@
 <template>
   <div>
     <div class="wrap">
-      <div class="cover" :style="{backgroundImage: `url(${imgUrl})`}">
-        <span class="icon iconfont icon-back" @click="handleBackClick"></span>
+      <div class="cover" :style="{backgroundImage: `url(${coverImg})`}">
+        <span class="icon iconfont icon-back" @click="handleBack"></span>
         <h2 class="title">{{title}}</h2>
         <div class="btn-wrap">
           <button class="btn"><span class="iconfont icon-shuffle"></span>随机播放全部</button>
         </div>
       </div>
       <ul class="content">
-        <li class="item"
-          v-for="(item, index) of songList"
-          :key="item.id"
-          @click="handleSelect(item, index)"
-        >
+        <li class="item" v-for="(item, index) of songList" :key="item.id" @click="handleSelect(item, index)">
           <h3 class="song-name">{{item.name}}</h3>
           <p class="song-album">{{item.singer}}</p>
         </li>
@@ -23,51 +19,39 @@
 </template>
 
 <script>
-import { getListDetail, getSongDetail } from './../../api/index'
-import { ERR_OK } from './../../api/config'
+import { getSingerDetail } from 'api/index'
+import { createList } from 'common/js/song'
+import { ERR_OK } from 'api/config'
 import { mapActions } from 'vuex'
-import { arrayToString, createList } from './../../common/js/song'
 
 export default {
-  name: 'detail',
+  name: 'singerDetail',
   data () {
     return {
       title: '',
-      imgUrl: '',
+      coverImg: '',
       songList: []
     }
   },
   mounted () {
-    this._getListDetail()
+    this._getSingerDetail()
   },
   methods: {
-    handleBackClick () {
-      this.$router.back()
-    },
-    _getListDetail () {
-      getListDetail(this.$route.params.id).then(res => {
-        if (!this.$route.params.id) {
-          this.$router.push('/recommend')
-          return
-        }
-        if (res.code === ERR_OK) {
-          let idList = ''
-          let songDetails = []
-          this.title = res.playlist.name
-          this.imgUrl = res.playlist.coverImgUrl
-          idList = arrayToString(res.playlist.trackIds, 'id')
-          getSongDetail(idList).then(res => {
-            if (res.code === ERR_OK) {
-              songDetails = res.songs
-              this.songList = createList(songDetails)
-            }
-          })
-        }
-      })
-    },
     ...mapActions([
       'selectPlay'
     ]),
+    handleBack () {
+      this.$router.back()
+    },
+    _getSingerDetail () {
+      getSingerDetail(this.$route.params.id).then(res => {
+        if (res.code === ERR_OK) {
+          this.title = res.artist.name
+          this.coverImg = res.artist.picUrl
+          this.songList = createList(res.hotSongs)
+        }
+      })
+    },
     handleSelect (item, index) {
       this.selectPlay({
         list: this.songList,
@@ -76,6 +60,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style lang="stylus" scoped>

@@ -6,11 +6,11 @@
         <h2 class="song">{{currentSong.name}}</h2>
         <p class="singer">{{currentSong.singer}}</p>
       </div>
-      <div class="banner">
-        <div class="cover" v-show="false">
+      <div class="banner" @click="bannerClick">
+        <div class="cover" v-show="showCover" >
           <img :src="currentSong.image" alt="图片">
         </div>
-        <m-lyric :list="currentLyric.lines" :currentLine="currentLine"></m-lyric>
+        <m-lyric :list="lines" :currentLine="currentLine" v-show="!showCover" ></m-lyric>
       </div>
       <div class="control">
         <audio
@@ -73,7 +73,9 @@ export default {
       totalTime: 0,
       songReady: false,
       currentLyric: null,
-      currentLine: 0
+      currentLine: 0,
+      lines: [],
+      showCover: false
     }
   },
   computed: {
@@ -127,6 +129,7 @@ export default {
         getLyric(this.currentSong.id).then(res => {
           if (res.code === ERR_OK) {
             this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyricChange)
+            this.lines = this.currentLyric.lines
             this.currentLyric.play()
           } else {
             this.currentLyric = 'no lyric'
@@ -222,6 +225,10 @@ export default {
     },
     handleLyricChange ({ lineNum, txt }) {
       this.currentLine = lineNum
+    },
+    bannerClick () {
+      // this.showCover = !this.showCover
+      console.log(this.showCover)
     }
   }
 }
@@ -238,7 +245,7 @@ export default {
     left: 0
     background: skyblue
     overflow: hidden
-    z-index: 10
+    z-index: 100
     .header
       position: relative
       height: 1.5rem

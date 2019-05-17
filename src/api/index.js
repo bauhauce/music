@@ -35,3 +35,33 @@ export function getLyric (id) {
     return Promise.resolve(res.data)
   })
 }
+
+export function getSearchHot () {
+  return axios.get('http://localhost:3000/search/hot').then(res => {
+    return Promise.resolve(res.data)
+  })
+}
+
+export function getSearch (keyword) {
+  return axios.get(`http://localhost:3000/search?keywords=${keyword}`).then(res => {
+    return Promise.resolve(res.data)
+  })
+}
+
+export function getTopList () {
+  return axios.get('http://localhost:3000/toplist/detail').then(res => {
+    return Promise.resolve(res.data)
+  })
+}
+
+export function getSinger () {
+  return axios.get('http://localhost:3000/toplist/artist').then(res => {
+    return Promise.resolve(res.data)
+  })
+}
+
+export function getSingerDetail (id) {
+  return axios.get(`http://localhost:3000/artists?id=${id}`).then(res => {
+    return Promise.resolve(res.data)
+  })
+}

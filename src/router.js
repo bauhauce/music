@@ -25,12 +25,24 @@ export default new Router({
     {
       path: '/singer',
       name: 'singer',
-      component: () => import(/* webpackChunkName: "singer" */ './views/singer/Singer')
+      component: () => import(/* webpackChunkName: "singer" */ './views/singer/Singer'),
+      children: [
+        {
+          path: ':id',
+          component: () => import(/* webpackChunkName: "singerDetail" */ './views/singerDetail/SingerDetail')
+        }
+      ]
     },
     {
       path: '/rank',
       name: 'rank',
-      component: () => import(/* webpackChunkName: "rank" */ './views/rank/Rank')
+      component: () => import(/* webpackChunkName: "rank" */ './views/rank/Rank'),
+      children: [
+        {
+          path: ':id',
+          component: () => import(/* webpackChunkName: "rankDetail" */ './views/rankDetail/RankDetail')
+        }
+      ]
     },
     {
       path: '/search',
