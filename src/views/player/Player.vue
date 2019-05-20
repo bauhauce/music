@@ -243,13 +243,14 @@ export default {
     right: 0
     bottom: 0
     left: 0
-    background: skyblue
+    background: #999
     overflow: hidden
     z-index: 100
     .header
       position: relative
       height: 1.5rem
-      background: red
+      color: #eee
+      background: #333
       .icon-pulldown
         position: absolute
         top: .2rem
@@ -316,7 +317,7 @@ export default {
     right: 0
     bottom: 0
     height: 1.8rem
-    background: red
+    background: rgba(125,125,125,0.3)
     overflow: hidden
     z-index: 10
     .left

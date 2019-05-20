@@ -13,11 +13,6 @@
         <div class="item-name">{{item.name}}</div>
       </dd>
     </dl>
-    <ul class="list-right">
-      <li>A</li>
-      <li>B</li>
-      <li>C</li>
-    </ul>
     <router-view></router-view>
   </div>
 </template>

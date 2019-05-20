@@ -1,6 +1,7 @@
 const path = require('path')
 
 module.exports = {
+  publicPath: '/music/dist/',
   configureWebpack: {
     resolve: {
       alias: {

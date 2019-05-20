@@ -1,31 +1,27 @@
 <template>
   <div>
-    <div class="banner">
-      <swiper :options="swiperOption">
-        <swiper-slide v-for="item of sliderList" :key="item.bannerID">
-          <img :src="item.pic" alt="图片">
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+    <div class="wrap">
+      <div class="banner">
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="item of sliderList" :key="item.bannerID">
+            <img :src="item.imageUrl" alt="图片">
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </div>
+      <div class="music-list">
+        <h3>推荐歌单</h3>
+        <ul>
+          <li class="list-item" v-for="list of recommendList" :key="list.id" @click="handleClick(list)">
+            <div class="cover">
+              <img :src="list.coverImgUrl" alt="图片">
+              <div class="count"><i class="iconfont icon-listen"></i><span>{{list.playCount}}</span></div>
+            </div>
+            <p class="desc">{{list.name}}</p>
+          </li>
+        </ul>
+      </div>
     </div>
-    <dl class="content">
-      <dt class="title">热门歌单推荐</dt>
-      <dd class="item"
-        v-for="item of recommendList"
-        :key="item.id"
-        @click="handleClick(item)"
-        :imgUrl="item.coverImgUrl"
-        :title="222"
-      >
-        <div class="item-left">
-          <img :src="item.coverImgUrl" alt="图片">
-        </div>
-        <div class="item-right">
-          <h3 class="item-title">{{item.creator.nickname}}</h3>
-          <p class="item-desc">{{item.name}}</p>
-        </div>
-      </dd>
-    </dl>
     <router-view></router-view>
   </div>
 </template>
@@ -57,6 +53,7 @@ export default {
       getBanner().then(res => {
         if (res.code === ERR_OK) {
           this.sliderList = res.banners
+          console.log(this.sliderList)
         }
       })
     },
@@ -77,42 +74,63 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.wrap
+  // position: absolute
+  // top: 1.52rem
+  // right: 0
+  // bottom: 0
+  // left: 0
+  // overflow: auto
+  position: absolute
+  top: 1.6rem
+  bottom: 0
+  left: 0
+  right: 0
+  overflow: auto
+  padding: .4rem 0
+  width: 100%
   .banner
     width: 100%
     height: 0
-    padding-bottom: 38%
-    overflow: hidden
+    padding-bottom: 36%
     background: #ccc
     img
       width: 100%
-  .content
-    height: 10rem
-    overflow: auto
-    .title
-      padding: .3rem 0
-      text-align: center
-      font-size: .3rem
-      color: #ccc
-    .item
+  .music-list
+    h3
+      margin: .1rem 0
       padding-left: .2rem
-      padding-bottom: .2rem
+      line-height: .66rem
+      font-size: .36rem
+      color: #fff
+      border-left: .05rem solid #fff
+    ul
       display: flex
-      .item-left
-        width: 1.2rem
-        height: 1.2rem
-        background: #ccc
-        img
+      flex-wrap: wrap
+      justify-content: space-between
+      .list-item
+        width: 32%
+        margin-bottom: .2rem
+        .cover
+          position: relative
           width: 100%
-      .item-right
-        flex: 1
-        padding-left: .2rem
-        // background: #ddd
-        .item-title
-          padding: .12rem 0
-          font-size: .3rem
-          color: #eee
-        .item-desc
-          padding: .12rem 0
-          font-size: .3rem
-          color: #666
+          height: 0
+          padding-bottom: 100%
+          img
+            width: 100%
+          .count
+            position: absolute
+            top: .12rem
+            right: .12rem
+            i
+              font-size: .2rem
+              color: #fff
+            span
+              font-size: .2rem
+              padding-left: .1rem
+              color: #fff
+        .desc
+          padding: .1rem
+          line-height: .3rem
+          font-size: .25rem
 </style>

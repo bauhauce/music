@@ -21,7 +21,11 @@ export default {
     justify-content: space-around
     align-items: center
     .nav-item
+      padding-bottom: .12rem
       line-height: .6rem
-      font-size: .3rem
+      font-size: .32rem
       color: #fff
+      &.router-link-active
+        font-weight: bold
+        border-bottom: 2px solid #fff
 </style>
